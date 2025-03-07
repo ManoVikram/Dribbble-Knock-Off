@@ -29,7 +29,7 @@ export default async function Home() {
       
       <section className="projects-grid">
         {projects.map((project) => (
-          <ProjectCard key={project.id} project={project} />
+          <ProjectCard key={project.id} id={project.id} image={project.image} title={project.title} description={project.description} creatorID={project.created_by.id} creatorName={project.created_by.name} avatarURL={project.created_by.image} />
         ))}
       </section>
 
