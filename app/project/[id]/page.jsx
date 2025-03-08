@@ -56,6 +56,10 @@ async function Project({ params }) {
                 )}
             </section>
 
+            <section className="mt-14">
+                <Image src={data?.image} height={720} width={1024} alt='poster' className='h-[720px] w-[1024px] object-cover rounded-2xl' />
+            </section>
+
             <section className="flexCenter flex-col mt-20">
                 <p className="max-w-5xl text-xl font-normal">
                     {data?.description}
