@@ -51,7 +51,7 @@ async function Project({ params }) {
 
                 {session?.user?.email === data?.created_by?.email && (
                     <div className="flex justify-end items-center gap-2">
-                        <ProjectActions projectID={data?.id} />
+                        <ProjectActions projectID={data?.id} session={session} />
                     </div>
                 )}
             </section>
