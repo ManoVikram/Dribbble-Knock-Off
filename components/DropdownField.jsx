@@ -8,7 +8,7 @@ import Image from 'next/image'
 
 function DropDownField({ title, state, filters, setState }) {
     const [open, setOpen] = useState(false)
-    const [value, setValue] = useState("")
+    const [value, setValue] = useState(state)
 
     return (
         <div className="flex flex-col w-full justify-start items-start gap-4 relative">

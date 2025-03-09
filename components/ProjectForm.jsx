@@ -7,17 +7,17 @@ import DropDownField from './DropdownField'
 import { categoryFilters } from '@/constants'
 import { Button } from './ui/button'
 import { Loader2 } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 
-function ProjectForm({ type, session }) {
-  console.log(session);
-  
+function ProjectForm({ type, session, project }) {
+  const router = useRouter()
   const [form, setForm] = useState({
-    title: "",
-    description: "",
-    image: "",
-    liveSiteUrl: "",
-    githubUrl: "",
-    category: "",
+    title: project?.title || "",
+    description: project?.description || "",
+    image: project?.image || "",
+    liveSiteUrl: project?.live_site_url || "",
+    githubUrl: project?.github_url || "",
+    category: project?.category || "",
     createdBy: session?.user?.id,
   })
   const [isFormSubmitting, setIsFormSubmitting] = useState(false)
@@ -31,15 +31,27 @@ function ProjectForm({ type, session }) {
 
     setIsFormSubmitting(true)
 
-    var response = await fetch("http://localhost:8080/api/createproject", {
-      method: "POST",
-      body: JSON.stringify(form),
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${session.sessionToken}`
-      },
-    })
-    console.log(response.json());
+    if (type === "create") {
+      await fetch("http://localhost:8080/api/createproject", {
+        method: "POST",
+        body: JSON.stringify(form),
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${session.sessionToken}`
+        },
+      })
+    } else if (type === "edit") {
+      await fetch(`http://localhost:8080/api/updateproject/${project.id}`, {
+        method: "PUT",
+        body: JSON.stringify(form),
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${session.sessionToken}`
+        },
+      })
+    }
+    
+    router.push("/")
 
     setIsFormSubmitting(false)
   }
