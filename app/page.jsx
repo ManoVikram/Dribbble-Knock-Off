@@ -1,10 +1,13 @@
 import { auth } from "@/auth";
+import Categories from "@components/Categories";
 import ProjectCard from "@components/ProjectCard";
 
-export default async function Home() {
+export default async function Home({ searchParams }) {
   const session = await auth()
 
-  const response = await fetch("http://localhost:8080/api/allprojects", {
+  const { category } = await searchParams
+
+  const response = await fetch(`http://localhost:8080/api/allprojects${category ? `?category=${category}` : ""}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -16,7 +19,7 @@ export default async function Home() {
   if (projects.length === 0) {
     return (
       <section className="flexStart flex-col paddings">
-        Categories
+        <Categories />
 
         <p className="no-result-text text-center">No projects found, go create one first.</p>
       </section>
@@ -25,8 +28,8 @@ export default async function Home() {
 
   return (
     <section className="flexStart flex-col paddings mb-16">
-      Categories
-      
+      <Categories />
+
       <section className="projects-grid">
         {projects.map((project) => (
           <ProjectCard key={project.id} id={project.id} image={project.image} title={project.title} description={project.description} creatorID={project.created_by.id} creatorName={project.created_by.name} avatarURL={project.created_by.image} />
