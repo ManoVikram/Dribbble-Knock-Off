@@ -1,20 +1,35 @@
 import { auth } from "@/auth";
 import Categories from "@components/Categories";
+import LoadMore from "@components/LoadMore";
 import ProjectCard from "@components/ProjectCard";
 
 export default async function Home({ searchParams }) {
   const session = await auth()
 
-  const { category } = await searchParams
+  const { category, page = 1, limit = 1 } = await searchParams
 
-  const response = await fetch(`http://localhost:8080/api/allprojects${category ? `?category=${category}` : ""}`, {
+  const queryParams = new URLSearchParams({
+    ...(category && { category }), // Add category if present
+    page: page.toString(),
+    limit: limit.toString()
+  }).toString()
+
+  const response = await fetch(`http://localhost:8080/api/allprojects?${queryParams}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
       "Authorization": `Bearer ${session.sessionToken}`
     },
   })
-  const projects = await response.json()
+  
+  const data = await response.json()
+  const projects = data["data"]
+  const totalProjects = data["total"]
+  const currentPage = Number(page)
+  const totalPages = Math.ceil(totalProjects / limit)
+
+  const hasNextPage = currentPage < totalPages
+  const hasPreviousPage = currentPage > 1
 
   if (projects.length === 0) {
     return (
@@ -36,7 +51,7 @@ export default async function Home({ searchParams }) {
         ))}
       </section>
 
-      LoadMore
+      <LoadMore hasNextPage={hasNextPage} hasPreviousPage={hasPreviousPage} currentPage={currentPage} />
     </section>
   );
 }
