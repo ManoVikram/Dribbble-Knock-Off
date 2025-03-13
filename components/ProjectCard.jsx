@@ -14,7 +14,7 @@ function ProjectCard({ id, image, title, description, creatorID, creatorName, av
   }, []);
 
   return (
-    <div className="flexCenter flex-col rounded-2xl h-[314px] w-[414px]">
+    <div className="flexCenter flex-col rounded-2xl h-[314px] w-full max-w-[414px]">
       <Link href={`/project/${id}`} className='flexCenter group relative w-full h-full'>
         <Image src={image} height={314} width={414} alt="project-image" className='w-full h-full object-cover rounded-2xl' />
 

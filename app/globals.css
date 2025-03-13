@@ -162,7 +162,8 @@ body {
 
 /* Profile Projects */
 .profile_projects {
-  @apply grid xl:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-8 mt-5;
+  /* @apply grid xl:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-8 mt-5; */
+  @apply grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-8 auto-rows-[314px] mt-5;
 }
 @layer base {
   :root {

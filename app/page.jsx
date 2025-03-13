@@ -6,7 +6,7 @@ import ProjectCard from "@components/ProjectCard";
 export default async function Home({ searchParams }) {
   const session = await auth()
 
-  const { category, page = 1, limit = 1 } = await searchParams
+  const { category, page = 1, limit = 10 } = await searchParams
 
   const queryParams = new URLSearchParams({
     ...(category && { category }), // Add category if present
